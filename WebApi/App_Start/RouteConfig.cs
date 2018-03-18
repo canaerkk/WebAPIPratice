@@ -15,6 +15,7 @@ namespace WebApi
 
             routes.MapRoute(
                 name: "Default",
+                //url: "Home/{action}/{id}",  ===>若是純API專案，則這邊只讓他進去Home的Controller，若沒比對成功就會報錯(IIS)
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
