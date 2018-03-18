@@ -26,6 +26,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         // GET: api/Products
+        [Route("prod")]
         public IQueryable<Product> GetProduct()
         {
             return db.Product.OrderByDescending(p=>p.ProductId).Take(10);
@@ -36,6 +37,7 @@ namespace WebApi.Controllers
         /// <param name="id">商品id</param>
         /// <returns></returns>
         // GET: api/Products/5
+        [Route("prod/{id}")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
@@ -47,6 +49,21 @@ namespace WebApi.Controllers
 
             return Ok(product);
         }
+
+        // GET: api/Products/5
+        [Route("prod/{id:int}/orderlines")]
+        [ResponseType(typeof(Product))]
+        public IHttpActionResult GetProductOrderlines(int id)
+        {
+            Product product = db.Product.Include("OrderLine").FirstOrDefault(p=>p.ProductId==id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product.OrderLine.ToList());
+        }
+
 
         // PUT: api/Products/5
         [ResponseType(typeof(void))]
