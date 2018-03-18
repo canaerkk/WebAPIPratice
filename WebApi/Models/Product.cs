@@ -11,7 +11,8 @@ namespace WebApi.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +20,9 @@ namespace WebApi.Models
         {
             this.OrderLine = new HashSet<OrderLine>();
         }
-    
+        /// <summary>
+        /// 產品ID
+        /// </summary>
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public Nullable<decimal> Price { get; set; }

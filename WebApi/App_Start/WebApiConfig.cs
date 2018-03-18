@@ -11,12 +11,13 @@ namespace WebApi
         {
             // Web API 設定和服務
 
-            // Web API 路由
+            // Web API 路由(屬性路由)
             config.MapHttpAttributeRoutes();
-
+            //傳統路由
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
+                //id是optional的可以不要有
                 defaults: new { id = RouteParameter.Optional }
             );
         }
