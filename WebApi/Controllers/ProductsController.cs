@@ -12,6 +12,7 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [RoutePrefix("products")]
     public class ProductsController : ApiController
     {
         private FabricsEntities db = new FabricsEntities();
@@ -26,10 +27,10 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         // GET: api/Products
-        [Route("prod")]
+        [Route("")]
         public IQueryable<Product> GetProduct()
         {
-            return db.Product.OrderByDescending(p=>p.ProductId).Take(10);
+            return db.Product.OrderByDescending(p => p.ProductId).Take(10);
         }
         /// <summary>
         /// 取得單一商品
@@ -37,7 +38,7 @@ namespace WebApi.Controllers
         /// <param name="id">商品id</param>
         /// <returns></returns>
         // GET: api/Products/5
-        [Route("prod/{id}")]
+        [Route("{id}", Name = "GetProductById")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
@@ -51,11 +52,11 @@ namespace WebApi.Controllers
         }
 
         // GET: api/Products/5
-        [Route("prod/{id:int}/orderlines")]
+        [Route("{id:int}/orderlines")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProductOrderlines(int id)
         {
-            Product product = db.Product.Include("OrderLine").FirstOrDefault(p=>p.ProductId==id);
+            Product product = db.Product.Include("OrderLine").FirstOrDefault(p => p.ProductId == id);
             if (product == null)
             {
                 return NotFound();
@@ -64,7 +65,7 @@ namespace WebApi.Controllers
             return Ok(product.OrderLine.ToList());
         }
 
-
+        [Route("{id}")]
         // PUT: api/Products/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProduct(int id, Product product)
@@ -101,6 +102,7 @@ namespace WebApi.Controllers
         }
 
         // POST: api/Products
+        [Route("")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult PostProduct(Product product)
         {
@@ -112,9 +114,9 @@ namespace WebApi.Controllers
             db.Product.Add(product);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = product.ProductId }, product);
+            return CreatedAtRoute("GetPRoductById", new { id = product.ProductId }, product);
         }
-
+        [Route("{id}")]
         // DELETE: api/Products/5
         [ResponseType(typeof(Product))]
         public IHttpActionResult DeleteProduct(int id)
